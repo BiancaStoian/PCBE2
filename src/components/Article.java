@@ -2,9 +2,11 @@ package components;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
-import dispatcher.Dispatcher;
+import actor.Actor;
 
 public class Article {
 	private String domain;
@@ -35,5 +37,22 @@ public class Article {
 	
 	public int getViews () {
 		return this.views;
+	}
+	
+	public boolean compareInterests(Filter f){
+		
+		if (f.getAuthors().contains(this.author)) {
+			return true;
+		}
+		
+		if (f.getDomains().contains(this.domain)) {
+			return true;
+		}
+		
+		if (f.getSubdomains().contains(this.domain)) {
+			return true;
+		}
+		
+		return false;
 	}
 }

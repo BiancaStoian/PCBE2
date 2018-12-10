@@ -2,19 +2,23 @@ package actor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import components.Article;
 import components.Event;
 import components.EventType;
+import components.Filter;
 import dispatcher.Dispatcher;
 
 public class Publisher implements Actor {
 	
 	private String name;
+	private Filter filter;
 	private static HashMap<String, Article> articles = new HashMap<>();
 	
 	public Publisher (String name) {
 		this.name = name;
+		this.filter = null;
 	}
 	
 	@Override
@@ -27,15 +31,18 @@ public class Publisher implements Actor {
 	public void registerListener(EventType e){
 		Dispatcher.getInstance().registerListener(e, this);
 	}
-
-	@Override
-	public void interestedOf (String interest) {
-		
+	
+	@Override 
+	public void addFilter (String filter) {
+		if (this.filter == null) {
+			this.filter = new Filter();
+		}
+		this.filter.addFilter(filter);
 	}
-
+	
 	@Override
-	public ArrayList<ArrayList<String>> getInterest() {
-		return null;
+	public Filter getFilter () {
+		return this.filter;
 	}
 	
 	public void publishArticle (String title, String domain, String subdomain) {

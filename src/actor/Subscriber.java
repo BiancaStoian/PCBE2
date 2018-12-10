@@ -1,22 +1,21 @@
 package actor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import components.Article;
 import components.Event;
 import components.EventType;
+import components.Filter;
 import dispatcher.Dispatcher;
 
 public class Subscriber implements Actor{
 	private String name;
-	private ArrayList<ArrayList<String>> interests;
+	private Filter filter; 
 	
 	public Subscriber (String name) {
 		this.name = name;
-		this.interests = new ArrayList<ArrayList<String>>();
-		this.interests.add(new ArrayList<String>()); // Authors
-		this.interests.add(new ArrayList<String>()); // Domains
-		this.interests.add(new ArrayList<String>()); // Subdomains
+		this.filter = new Filter();
 	}
 	
 	@Override
@@ -59,19 +58,16 @@ public class Subscriber implements Actor{
 		Dispatcher.getInstance().registerListener(e, this);
 	}
 
-	@Override
-	public void interestedOf (String interest) {
-		int c = interest.indexOf(':');
-		switch (interest.substring(0,c)) {
-			case "Author": this.interests.get(0).add(interest.substring(c+1));
-			case "Domain": this.interests.get(1).add(interest.substring(c+1));
-			case "Subdomain": this.interests.get(2).add(interest.substring(c+1));
+	@Override 
+	public void addFilter (String filter) {
+		if (this.filter == null) {
+			this.filter = new Filter();
 		}
-		
+		this.filter.addFilter(filter);
 	}
-
+	
 	@Override
-	public ArrayList<ArrayList<String>> getInterest() {
-		return this.interests;
+	public Filter getFilter () {
+		return this.filter;
 	}
 }
