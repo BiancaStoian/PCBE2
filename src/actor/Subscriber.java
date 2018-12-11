@@ -1,6 +1,5 @@
 package actor;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import components.Article;
@@ -15,12 +14,10 @@ public class Subscriber implements Actor{
 	
 	public Subscriber (String name) {
 		this.name = name;
-		this.filter = new Filter();
 	}
 	
 	@Override
 	public void handleEvent(Event e) {
-		// TODO Auto-generated method stub
 		switch (e.getType()) {
 		case CREATE_ARTICLE: handleCreateArticle(e.getArticle()); break;
 		case MODIFY_ARTICLE: handleModifyArticle(e.getArticle()); break;
@@ -54,8 +51,10 @@ public class Subscriber implements Actor{
 	}
 	
 	@Override
-	public void registerListener(EventType e) {
-		Dispatcher.getInstance().registerListener(e, this);
+	public void registerListener() {
+		Dispatcher.getInstance().registerListener(EventType.CREATE_ARTICLE, this);
+		Dispatcher.getInstance().registerListener(EventType.MODIFY_ARTICLE, this);
+		Dispatcher.getInstance().registerListener(EventType.REMOVE_ARTICLE, this);
 	}
 
 	@Override 

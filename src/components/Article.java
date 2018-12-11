@@ -15,7 +15,6 @@ public class Article {
 	private String author;
 	private Date dateCreated;
 	private Date dateModified;
-	private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	private int views = 0;
 	
 	public Article (String title, String domain, String subdomain, String author) {
@@ -39,7 +38,11 @@ public class Article {
 		return this.views;
 	}
 	
-	public boolean compareInterests(Filter f){
+	public void modifyDate (Date d) {
+		this.dateModified = d;
+	}
+	
+	public boolean applyFilter(Filter f){
 		
 		if (f.getAuthors().contains(this.author)) {
 			return true;
@@ -54,5 +57,9 @@ public class Article {
 		}
 		
 		return false;
+	}
+	
+	public String toString () {
+		return this.domain + this.subdomain + this.dateCreated + this.dateModified;
 	}
 }

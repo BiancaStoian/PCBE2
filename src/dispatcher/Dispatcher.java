@@ -35,7 +35,7 @@ public class Dispatcher {
 	public void notify (Event e) {
 		ArrayList<Actor> actors = eventListeners.get(e.getType());
 		for (Actor actor : actors) {
-			if(actor.getFilter() == null || e.getArticle().compareInterests(actor.getFilter())) {
+			if(actor.getFilter() == null || e.getArticle().applyFilter(actor.getFilter())) {
 				actor.handleEvent(e);
 			}
 		}

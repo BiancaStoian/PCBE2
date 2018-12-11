@@ -1,8 +1,7 @@
 package actor;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import components.Article;
 import components.Event;
@@ -18,7 +17,6 @@ public class Publisher implements Actor {
 	
 	public Publisher (String name) {
 		this.name = name;
-		this.filter = null;
 	}
 	
 	@Override
@@ -28,16 +26,13 @@ public class Publisher implements Actor {
 	}
 	
 	@Override
-	public void registerListener(EventType e){
-		Dispatcher.getInstance().registerListener(e, this);
+	public void registerListener(){
+		Dispatcher.getInstance().registerListener(EventType.READ_ARTICLE, this);
 	}
 	
 	@Override 
 	public void addFilter (String filter) {
-		if (this.filter == null) {
-			this.filter = new Filter();
-		}
-		this.filter.addFilter(filter);
+
 	}
 	
 	@Override
@@ -52,6 +47,7 @@ public class Publisher implements Actor {
 	}
 	
 	public void modifyArticle (String title){
+		articles.get(title).modifyDate(new Date());
 		Dispatcher.getInstance().notify(new Event(EventType.MODIFY_ARTICLE, articles.get(title)));
 	}
 	

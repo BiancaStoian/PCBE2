@@ -10,7 +10,7 @@ import components.Filter;
 public interface Actor {
 
 	public void handleEvent(Event e);
-	public void registerListener(EventType e);
+	public void registerListener();
 	/*public void interestedOf(String interest);
 	public ArrayList<HashSet<String>> getInterest(); */
 	void addFilter(String filter);
